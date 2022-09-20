@@ -1,0 +1,11 @@
+CREATE DATABASE qa;
+USE qa;
+
+CREATE TABLE customers(
+id INT UNIQUE NOT NULL AUTO_INCREMENT,
+first_name VARCHAR(255) NOT NULL,
+last_name VARCHAR(255) NOT NULL,
+phone_number CHAR(11) NOT NULL,
+address VARCHAR(255),
+PRIMARY KEY(id)
+);
