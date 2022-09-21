@@ -96,3 +96,33 @@ VALUES
 SELECT * FROM order_items;
 
 
+### MAKING UPDATES TO TABLES ###
+SELECT * FROM customers;
+
+UPDATE customers
+SET first_name="Draco", last_name="Malfoy"
+WHERE id=1;
+
+SELECT * FROM customers;
+
+
+### ADD 2 NEW ORDERS  ###
+SELECT * FROM orders;
+
+INSERT INTO orders(customer, price, order_complete, discount_code)
+VALUES
+(1, 14.00, TRUE, 0),
+(1, 25.98, TRUE, 0);
+
+SELECT * FROM orders;
+
+SELECT * FROM order_items;
+
+INSERT INTO order_items(order_id, item_id, quantity)
+VALUES
+(6,5,2),
+(7,1,2);
+
+SELECT * FROM order_items;
+
+### DELETE THE FINAL ORDER ###
