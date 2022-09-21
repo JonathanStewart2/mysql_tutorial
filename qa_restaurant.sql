@@ -126,9 +126,11 @@ VALUES
 SELECT * FROM order_items;
 
 ### DELETE THE FINAL ORDER ###
-DELETE FROM orders WHERE id=7; #cannot delete as parent
+#DELETE FROM orders WHERE id=7; #cannot delete as parent
 DELETE FROM order_items WHERE id=7;
 DELETE FROM orders WHERE id=7;
 
 SELECT * FROM orders;
 SELECT * FROM order_items;
+
+SELECT first_name FROM customers WHERE last_name="Potter";
