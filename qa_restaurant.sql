@@ -32,7 +32,7 @@ price DECIMAL(6,2) NOT NULL,
 order_complete BOOLEAN,
 discount_code DECIMAL(4,2),
 PRIMARY KEY(id),
-FOREIGN KEY(customer) REFERENCES customers(id)
+FOREIGN KEY(customer) REFERENCES customers(id) ON DELETE CASCADE
 );
 
 CREATE TABLE order_items(
@@ -41,8 +41,8 @@ order_id INT NOT NULL,
 item_id INT NOT NULL,
 quantity INT NOT NULL,
 PRIMARY KEY (id),
-FOREIGN KEY (order_id) REFERENCES orders(id),
-FOREIGN KEY (item_id) REFERENCES menu(id)
+FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+FOREIGN KEY (item_id) REFERENCES menu(id) ON DELETE CASCADE
 );
 
 
@@ -154,3 +154,17 @@ SELECT * FROM menu LIMIT 2;
 SELECT * FROM menu ORDER BY id DESC LIMIT 2;
 SELECT * FROM menu WHERE price BETWEEN 10.00 AND 12.50 ORDER BY id DESC;
 SELECT * FROM customers ORDER BY last_name DESC LIMIT 3;
+
+SELECT id FROM orders ORDER BY order_date LIMIT 4;
+SELECT DISTINCT customer FROM orders ORDER BY customer DESC;
+SELECT DISTINCT order_id FROM order_items ORDER BY order_id DESC LIMIT 3;
+
+
+SELECT first_name, last_name FROM customers WHERE address LIKE "%Drive";
+SELECT * FROM customers WHERE email LIKE "%@granger%";
+SELECT phone FROM customers WHERE email LIKE "%@%" ORDER BY id DESC;
+
+# NOT WORKING
+#SELECT * FROM order_items IF COUNT(item_id) > 1;
+#SELECT id, item_id FROM order_items WHERE COUNT(SELECT DISTINCT item_id FROM order_items) > 1;
+
