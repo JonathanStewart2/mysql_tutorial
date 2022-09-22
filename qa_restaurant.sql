@@ -220,3 +220,57 @@ DELETE FROM orders WHERE id=7;
 #LEFT OUTER JOIN order_items oi ON  o.id=oi.order_id
 #LEFT OUTER JOIN menu m ON oi.item_id=m.id;
 
+#Display what item each customer ordered
+SELECT c.first_name, c.last_name, m.item FROM customers c
+JOIN orders o ON c.id = o.customer
+JOIN order_items oi ON o.id = oi.order_id
+JOIN menu m ON oi.item_id = m.id;
+
+SELECT id FROM orders WHERE customer = 5; # results in 2
+
+SELECT first_name, last_name FROM customers 
+WHERE id = 
+	(SELECT id FROM orders WHERE customer = 5);
+
+
+
+SELECT order_id FROM order_items 
+WHERE item_id = (
+	SELECT id from menu WHERE item LIKE "%risotto"
+) 
+LIMIT 1;   #results in 1
+
+SELECT customer FROM orders WHERE id = 1; #results in 3
+
+# Nesting the above 2:
+SELECT CONCAT(c.first_name," ",c.last_name) AS Customer_Name_Who_Ordered_Risotto FROM customers c WHERE id = (
+	SELECT customer FROM orders WHERE id = (
+		SELECT order_id FROM order_items WHERE item_id = (
+			SELECT id from menu WHERE item LIKE "%risotto") 
+		LIMIT 1
+		)
+);
+
+
+
+
+SELECT CONCAT(c.first_name, " ", c.last_name) AS Customer_Name, m.item AS Food_Order, m.price FROM customers c 
+JOIN orders o ON c.id = o.customer
+JOIN order_items oi ON o.id = oi.order_id
+JOIN menu m ON oi.item_id = m.id
+WHERE oi.item_id = (
+	SELECT id FROM menu WHERE item LIKE "Hall%")
+;
+
+
+
+SELECT item AS Food_Ordered FROM menu m
+WHERE id = (
+	SELECT item_id FROM order_items WHERE quantity > 1 LIMIT 1
+    )
+;
+
+SELECT * FROM customers;
+SELECT * FROM orders;
+SELECT * FROM order_items;
+SELECT * FROM menu;
