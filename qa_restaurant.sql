@@ -46,7 +46,6 @@ FOREIGN KEY (item_id) REFERENCES menu(id)
 );
 
 
-
 #### CUSTOMERS #####
 INSERT INTO customers(
 first_name, last_name, phone, address, postcode, email)
@@ -83,7 +82,6 @@ VALUES
 
 SELECT * FROM orders;
 
-SELECT * FROM order_items;
 ### ADDING ORDER ITEMS ###
 INSERT INTO order_items(order_id, item_id, quantity)
 VALUES
@@ -133,4 +131,26 @@ DELETE FROM orders WHERE id=7;
 SELECT * FROM orders;
 SELECT * FROM order_items;
 
+#### VIEWING RECORDS ####
 SELECT first_name FROM customers WHERE last_name="Potter";
+SELECT * FROM menu WHERE price>10.00;
+SELECT * FROM menu WHERE available IS TRUE;
+SELECT * FROM menu WHERE available != TRUE;
+SELECT * FROM menu WHERE price > 10.00 AND price < 11.00;
+SELECT * FROM menu WHERE price BETWEEN 10.00 AND 12.33;
+SELECT * FROM menu WHERE item LIKE "%ash";
+SELECT * FROM menu WHERE item LIKE "%a%";
+SELECT * FROM menu WHERE allergens LIKE "%nut%";
+
+SELECT DISTINCT id FROM order_items;
+SELECT DISTINCT customer FROM orders;
+
+### ORDERING DATA
+SELECT * FROM menu ORDER BY item; #ascending automatically, or can state ASC
+SELECT * FROM menu ORDER BY item DESC;
+
+#LIMITING DATA#
+SELECT * FROM menu LIMIT 2;
+SELECT * FROM menu ORDER BY id DESC LIMIT 2;
+SELECT * FROM menu WHERE price BETWEEN 10.00 AND 12.50 ORDER BY id DESC;
+SELECT * FROM customers ORDER BY last_name DESC LIMIT 3;
