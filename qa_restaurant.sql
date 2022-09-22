@@ -168,3 +168,57 @@ SELECT phone FROM customers WHERE email LIKE "%@%" ORDER BY id DESC;
 #SELECT * FROM order_items IF COUNT(item_id) > 1;
 #SELECT id, item_id FROM order_items WHERE COUNT(SELECT DISTINCT item_id FROM order_items) > 1;
 
+### AGGREGATE FUNCTIONS ###
+SELECT AVG(price) FROM menu;
+SELECT MIN(price) FROM menu;
+SELECT MAX(price) FROM menu;
+SELECT SUM(price) FROM orders;
+SELECT COUNT(id) FROM customers;
+
+### NESTED QUERIES ###
+SELECT customer FROM orders WHERE id = 5; # returns 1
+SELECT * FROM customers WHERE id = 1;
+## Combine both select statements:
+SELECT * FROM customers WHERE id=(SELECT customer FROM orders WHERE id=5);
+
+SELECT item_id FROM order_items WHERE id = 1; #returns 5
+SELECT * FROM menu WHERE id = 5; # returns mushroom risottor
+# combine both statements to give:
+SELECT * FROM menu WHERE id = (SELECT item_id FROM order_items WHERE id = 1);
+
+### JOINS ###
+### INNER JOIN - default,combines based on data present in both tables
+SELECT * FROM customers
+JOIN orders ON customers.id = orders.customer;
+
+SELECT first_name, last_name, order_date FROM customers
+JOIN orders ON customers.id = orders.customer;
+
+#Abbreviated table names
+SELECT c.id, o.id FROM customers c
+JOIN orders o ON c.id = o.customer;
+
+### OUTER JOINS: 2 types, LEFT OUTER JOIN and RIGHT OUTER JOIN
+#LEFT OUTER JOIN: customers table looking for records to match in the orders table, no match returns NULL
+SELECT * FROM customers c
+LEFT OUTER JOIN orders o ON c.id = o.customer;
+#RIGHT OUTER JOIN
+SELECT * FROM customers c
+RIGHT OUTER JOIN orders o ON c.id = o.customer;
+
+# Display all customers who ordered something (INNER JOIN)
+SELECT * FROM customers c
+JOIN orders o ON c.id = o.customer
+JOIN order_items oi ON  o.id=oi.order_id
+JOIN menu m ON oi.item_id=m.id;
+
+SELECT c.email, m.item, o.price, oi.quantity FROM customers c
+JOIN orders o ON c.id = o.customer
+JOIN order_items oi ON  o.id=oi.order_id
+JOIN menu m ON oi.item_id=m.id;
+
+# also include customers who didnt place an order
+SELECT * FROM customers c
+LEFT OUTER JOIN orders o ON c.id = o.customer
+LEFT OUTER JOIN order_items oi ON  o.id=oi.order_id
+LEFT OUTER JOIN menu m ON oi.item_id=m.id;
